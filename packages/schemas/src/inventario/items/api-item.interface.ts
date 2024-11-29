@@ -30,7 +30,7 @@ export interface ApiItem {
         percentage: number;
         exp: string | null;
     } | null,
-    orderIndex: number | null,
+    orderIndex: number,
     slug: string,
     flags: {
         value: string
