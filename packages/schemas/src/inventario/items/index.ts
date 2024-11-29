@@ -5,3 +5,4 @@ export * from './api-items.const';
 export * from './item.interface';
 export * from './item.types';
 export * from './parse-object-item-to-api-item';
+export * from './parse-api-item-to-object-item';
