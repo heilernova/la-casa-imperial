@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@la-casa-imperial/core": ["packages/core/src/index.ts"],
-      "@la-casa-imperial/schemas": ["packages/schemas/src/index.ts"]
+      "@la-casa-imperial/schemas/*": ["packages/schemas/src/*"],
     }
   },
   "exclude": ["node_modules", "tmp"]
