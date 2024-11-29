@@ -1,4 +1,4 @@
-export interface ApiProfileInfo {
+export interface ApiProfile {
     name: string;
     lastName: string;
     sex: "M" | "F";
