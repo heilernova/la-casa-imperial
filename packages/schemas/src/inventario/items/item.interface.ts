@@ -28,7 +28,7 @@ export interface IItem {
     offer: {
         basePrice: number
         percentage: number
-        date: Date | null
+        exp: Date | null
     } | null,
     orderIndex: number,
     slug: string,
