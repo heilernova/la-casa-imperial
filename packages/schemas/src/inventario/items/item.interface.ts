@@ -1,4 +1,3 @@
-import exp = require("constants");
 import { ItemFilter, ItemStatus, ItemType } from "./item.types";
 
 export interface IItem {
