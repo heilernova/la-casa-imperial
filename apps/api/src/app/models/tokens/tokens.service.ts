@@ -1,15 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { IToken } from '@la-casa-imperial/schemas/users';
 import { DbConnectionService } from '../../common/db-connection';
-
-interface IToken {
-    id: string
-    createAt: Date
-    userId: string
-    exp: Date | null
-    ip: string
-    platform: string
-    device: string
-}
 
 @Injectable()
 export class TokensService {
