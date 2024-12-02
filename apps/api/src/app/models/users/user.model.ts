@@ -4,7 +4,6 @@ import { DbConnectionService } from '../../common/db-connection';
 
 export class User {
     private readonly _db: DbConnectionService;
-    private readonly pin: string | null;
     private readonly password: string;
     
     public readonly id: string;
@@ -19,6 +18,7 @@ export class User {
     public readonly sex: Sex;
     public readonly cellphone: string;
     public readonly permissions: string[];
+    public readonly pin: string | null;
 
 
     public async matchPassword(password: string): Promise<boolean> {
