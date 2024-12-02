@@ -1,3 +1,4 @@
+import { OmitBy, PartialWithout } from "@la-casa-imperial/core";
 import { ItemFilter, ItemStatus, ItemType } from "./item.types";
 
 export interface IItem {
@@ -73,4 +74,26 @@ export interface IOpenGraphImage {
     height: number;
     size: number;
     url: string;
+}
+
+export interface IItemCreateValues extends PartialWithout<OmitBy<IItem, "id" | "createdAt" | "updatedAt" | "offer" | "categories" | "cost">, "name" | "price">  {
+    categoryId: string;
+    cost?: {
+        baseCost?: number,
+        otherCosts?: {
+            total: number
+            details: { field: string, value: number }[]
+        }
+    }
+}
+
+export interface IItemUpdateValues extends Partial<OmitBy<IItem, "id" | "createdAt" | "updatedAt" | "offer" | "categories" | "cost">>  {
+    categoryId?: string;
+    cost?: {
+        baseCost?: number,
+        otherCosts?: {
+            total: number
+            details: { field: string, value: number }[]
+        }
+    }
 }
