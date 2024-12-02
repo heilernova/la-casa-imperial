@@ -1,5 +1,5 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { IItem, IItemCreateValues, IItemUpdateValues, ItemType } from '@la-casa-imperial/schemas/inventario/items'
+import { IItem, IItemCreateValues, IItemUpdateValues, ItemType } from '@la-casa-imperial/schemas/inventory/items'
 import { DbConnectionService } from '../../../common/db-connection';
 import { SQL_QUERY_PRODUCTS } from './sql-query-products';
 import { isNumberString, isUUID } from 'class-validator';

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ICategory } from '@la-casa-imperial/schemas/inventario/categories';
+import { ICategory } from '@la-casa-imperial/schemas/inventory/categories';
 import { DbConnectionService } from '../../../common/db-connection';
 import { isHexadecimal } from 'class-validator';
 import { generateSlug } from '@la-casa-imperial/core';

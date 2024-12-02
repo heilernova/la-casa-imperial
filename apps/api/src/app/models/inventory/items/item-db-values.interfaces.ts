@@ -1,5 +1,5 @@
 import { OmitBy, PartialWithout } from "@la-casa-imperial/core";
-import { IDetail, IOpenGraphImage, ItemFilter, ItemStatus, ItemType } from "@la-casa-imperial/schemas/inventario/items";
+import { IDetail, IOpenGraphImage, ItemFilter, ItemStatus, ItemType } from "@la-casa-imperial/schemas/inventory/items";
 
 export interface IItemDbValues {
     id: string;

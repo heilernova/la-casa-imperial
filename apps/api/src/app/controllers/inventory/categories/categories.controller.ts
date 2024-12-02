@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpException, Param, Post, Put, Query } from '@nestjs/common';
-import { ICategory } from '@la-casa-imperial/schemas/inventario/categories';
+import { ICategory } from '@la-casa-imperial/schemas/inventory/categories';
 import { CategoryCreateDto, CategoryUpdateDto } from './dto';
 import { CategoriesService } from '../../../models/inventory';
 import { CategoryPipe } from '../../../models/inventory/categories';

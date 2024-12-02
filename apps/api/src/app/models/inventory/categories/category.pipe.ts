@@ -3,7 +3,7 @@ import { HttpException, Injectable, PipeTransform } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '../../../app.module';
-import { ICategory } from '@la-casa-imperial/schemas/inventario/categories';
+import { ICategory } from '@la-casa-imperial/schemas/inventory/categories';
 
 @Injectable()
 export class CategoryPipe implements PipeTransform {
