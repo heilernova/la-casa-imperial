@@ -129,8 +129,11 @@ export class ItemsService {
         await this._db.update("inventory_items", ["id = $1", [id]], values);
     }
 
-    public async isNameAvailable(name: string): Promise<boolean> {
-        return (await this._db.query<[boolean]>("SELECT COUNT(*) = 0 FROM inventory_items WHERE LOWER(unaccent(name)) = LOWER(unaccent($1))", [name], true)).rows[0][0]
+    public async isNameAvailable(name: string, id?: string): Promise<boolean> {
+        const baseSql = "SELECT COUNT(*) = 0 FROM inventory_items WHERE LOWER(unaccent(name)) = LOWER(unaccent($1))";
+        const sql = id ? `${baseSql} AND id <> $2` : baseSql;
+        const params = id ? [name, id] : [name];
+        return (await this._db.query<[boolean]>(sql, params, true)).rows[0][0]
     }
 
     public async delete(id: string): Promise<boolean> {
