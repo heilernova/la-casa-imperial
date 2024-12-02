@@ -1,12 +1,15 @@
 import { OmitBy } from "@la-casa-imperial/core";
 import { Sex } from "../global";
 
+export type UserRole = "admin" | "collaborator" | "customer";
+export type UserStatus = "active" | "lock";
+
 export interface IUserBase {
     id: string;
     createdAt: Date;
     updatedAt: Date;
-    role: "admin" | "collaborator" | "customer";
-    status: "active" | "lock";
+    role: UserRole;
+    status: UserStatus;
     username: string;
     email: string;
     name: string;
@@ -22,8 +25,8 @@ export interface IUser {
     id: string;
     createdAt: Date;
     updatedAt: Date;
-    role: "admin" | "collaborator" | "customer";
-    status: "active" | "lock";
+    role: UserRole;
+    status: UserStatus;
     username: string;
     email: string;
     name: string;
