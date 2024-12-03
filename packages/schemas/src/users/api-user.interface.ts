@@ -8,7 +8,7 @@ export interface ApiUser {
     email: string;
     name: string;
     lastName: string;
-    sex: string;
+    sex: string | null;
     cellphone: string;
     permissions: string[];
 }
