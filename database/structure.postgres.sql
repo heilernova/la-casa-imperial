@@ -49,7 +49,7 @@ CREATE TABLE users_tokens
     "user_id" UUID NOT NULL,                                        --> ID del usuario
     "exp" TIMESTAMP,                                                --> Fecha de expiración
     "ip" VARCHAR(40) NOT NULL,                                      --> IP de la conexión
-    "platform" VARCHAR(40) NOT NULL,                                --> Plataforma / sistema operativo
+    "platform" VARCHAR(40),                                         --> Plataforma / sistema operativo
     "device" VARCHAR(40) NOT NULL                                   --> Dispositivo
 );
 
