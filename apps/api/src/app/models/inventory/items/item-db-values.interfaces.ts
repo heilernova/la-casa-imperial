@@ -32,7 +32,7 @@ export interface IItemDbValues {
     seo_keywords: string[];
     details: IDetail[];
     gallery: string[];
-    open_graph_images: OmitBy<IOpenGraphImage, "url">[]
+    open_graph_images: IOpenGraphImage[]
     description: string | null
 }
 

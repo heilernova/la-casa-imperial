@@ -5,11 +5,13 @@ import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [
-    AuthController,
     InventoryModule,
     RouterModule.register([
       { path: 'inventory', module: InventoryModule }
     ])
+  ],
+  controllers: [
+    AuthController
   ]
 })
 export class ControllersModule {}

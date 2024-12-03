@@ -17,12 +17,12 @@ export class ItemsController {
     @Get()
     async getAll(): Promise<ApiItem[]> {
         const items = await this._items.getAll({});
-        return items.map(x => parseObjectItemToApiItem(x));
+        return items.map(x => parseObjectItemToApiItem(x, "https://localhost:3050/media/items"));
     }
 
     @Get(':id')
     get(@Param('id', ItemPipe) item: IItem): ApiItem {
-        return parseObjectItemToApiItem(item);
+        return parseObjectItemToApiItem(item, "https://localhost:3050/media/items");
     }
 
     @Post()
@@ -32,7 +32,7 @@ export class ItemsController {
             throw new HttpException("El nombre del ítem ya está en uso. Por favor, elige un nombre diferente.", 400);
         }
         const item = await this._items.create(body);
-        return parseObjectItemToApiItem(item);
+        return parseObjectItemToApiItem(item, "https://localhost:3050/media/items");
     }
 
     @Put(':id')
@@ -44,7 +44,7 @@ export class ItemsController {
         await this._items.update(item.id, body);
         const result = await this._items.get(item.id);
         if (!result) throw new HttpException("Error inesperado", 500);
-        return  parseObjectItemToApiItem(result);
+        return  parseObjectItemToApiItem(result, "https://localhost:3050/media/items");
     }
 
     @Delete(':id')
