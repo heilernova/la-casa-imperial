@@ -33,7 +33,7 @@ export class CategoriesService {
     }
 
     public async create(data: { name: string, parentId?: string, description?: string }): Promise<ICategory> {
-        const result = await this._db.insert<ICategory>("inventory_categories", data, `id, parent_id as "parentId", name, slug, description`);
+        const result = await this._db.insert<ICategory>("inventory_categories", { ...data, slug: generateSlug(data.name) }, `id, parent_id as "parentId", name, slug, description`);
         return result.rows[0];
     }
 
