@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { InventoryModule } from './inventory/inventory.module';
 import { AuthController } from './auth/auth.controller';
 import { RouterModule } from '@nestjs/core';
+import { ProfileController } from './profile/profile.controller';
 
 @Module({
   imports: [
@@ -11,7 +12,8 @@ import { RouterModule } from '@nestjs/core';
     ])
   ],
   controllers: [
-    AuthController
+    AuthController,
+    ProfileController
   ]
 })
 export class ControllersModule {}
