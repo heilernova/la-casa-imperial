@@ -1,0 +1,45 @@
+:host {
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    form {
+        width: 100%;
+        max-width: 300px;
+        display: flex;
+        flex-direction: column;
+        row-gap: .5em;
+        .logo {
+            display: flex;
+            column-gap: .5em;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                height: 45px;
+            }
+            h1 {
+                font-size: 30px;
+                margin: 0;
+            }
+        }
+    }
+}
+
+footer {
+    padding: 1em;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    :nth-child(2){
+        display: flex;
+        justify-content: center;
+        // text-align: right;
+    }
+    :nth-child(3){
+        text-align: right;
+    }
+}

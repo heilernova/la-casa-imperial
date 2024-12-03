@@ -1,0 +1,42 @@
+<section>
+    <form [formGroup]="credentials">
+        <div class="logo">
+            <img src="/logo.svg" alt="La Casa Imperial">
+            <h1>La Casa Imperial</h1>
+        </div>
+        <h2>Iniciar sesión</h2>
+        <div>
+            <nz-form-item>
+                <nz-form-control>
+                    <nz-input-group [nzAddOnBefore]="before1" >
+                        <ng-template #before1><div style="width: 5em;">Usuario</div></ng-template>
+                        <input nz-input placeholder="Usuario o correo electrónico" formControlName="username">
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                    <nz-input-group [nzAddOnBefore]="before2">
+                        <ng-template #before2><div style="width: 5em;">Contraseña</div></ng-template>
+                        <input nz-input placeholder="Contraseña" type="password" formControlName="password">
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+            <button nz-button nzType="primary" (click)="onSignIn()" [disabled]="validating()">Iniciar sesión</button>
+        </div>
+    </form>
+</section>
+
+<footer>
+    <div>
+        Novah.dev
+    </div>
+    <div>
+        Copyright © 2024 Inversiones La Casa Imperial S.A.S ZOMAC
+    </div>
+    <div>
+        Tienda online
+    </div>
+</footer>
