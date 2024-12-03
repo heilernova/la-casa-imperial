@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, FileTypeValidator, Get, HttpException, Param, ParseFilePipe, Post, Put, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, FileTypeValidator, Get, HttpException, Param, ParseFilePipe, Post, Put, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { ItemPipe, ItemsService } from '../../../models/inventory';
 import { ApiItem, IItem, IOpenGraphImage, parseObjectItemToApiItem } from '@la-casa-imperial/schemas/inventory/items';
@@ -8,8 +8,10 @@ import * as multer from 'multer';
 import e, { Express } from 'express';
 import { existsSync, mkdirSync, rmSync } from 'node:fs';
 import * as sharp from 'sharp';
+import { AuthGuard } from '../../../authentication';
 
 
+@UseGuards(AuthGuard)
 @Controller('items')
 export class ItemsController {
     constructor(private readonly _items: ItemsService){}
