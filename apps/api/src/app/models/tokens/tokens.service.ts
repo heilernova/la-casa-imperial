@@ -7,7 +7,7 @@ export class TokensService {
     constructor(private readonly _db: DbConnectionService){}
 
     public async get(id: string, userId?: string): Promise<IToken> { 
-        let sql = `SELECT id, create_at as "createAt", user_id as "userId", exp, ip, platform, device FROM users_tokens WHERE id = $1`;
+        let sql = `SELECT id, created_at as "createAt", user_id as "userId", exp, ip, platform, device FROM users_tokens WHERE id = $1`;
         const params: string[] = [id];
         if (userId){
             sql += " and user_id = $2";
@@ -18,7 +18,7 @@ export class TokensService {
 
     public async getAll(filters?: { userId?: string }): Promise<IToken[]> {
         const conditions: string[] = [];
-        let sql = `id, create_at as "createAt", user_id as "userId", exp, ip, platform, device FROM users_tokens`;
+        let sql = `SELECT id, created_at as "createAt", user_id as "userId", exp, ip, platform, device FROM users_tokens`;
         let params: string[] | undefined = [];
         if (filters?.userId){
             conditions.push(`user_id = $${params.push(filters.userId)}`);
@@ -29,6 +29,7 @@ export class TokensService {
         } else {
             params = undefined;
         }
+        console.log(sql);
         return (await this._db.query(sql, params)).rows;
     }
 
