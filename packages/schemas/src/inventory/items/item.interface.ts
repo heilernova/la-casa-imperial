@@ -73,7 +73,6 @@ export interface IOpenGraphImage {
     width: number;
     height: number;
     size: number;
-    url: string;
 }
 
 export interface IItemCreateValues extends PartialWithout<OmitBy<IItem, "id" | "createdAt" | "updatedAt" | "offer" | "categories" | "cost">, "name" | "price">  {
