@@ -14,7 +14,7 @@ export interface IUserBase {
     email: string;
     name: string;
     lastName: string;
-    sex: Sex;
+    sex: Sex | null;
     cellphone: string;
     pin: string | null;
     password: string;
@@ -31,7 +31,7 @@ export interface IUser {
     email: string;
     name: string;
     lastName: string;
-    sex: Sex;
+    sex: Sex | null;
     cellphone: string;
     permissions: string[];
 }
