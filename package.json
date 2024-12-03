@@ -2,7 +2,9 @@
   "name": "@la-casa-imperial/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "install-db": "ts-node ./scripts/install-db/main.ts"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~18.2.0",
