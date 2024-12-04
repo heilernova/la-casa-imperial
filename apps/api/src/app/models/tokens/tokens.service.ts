@@ -35,9 +35,9 @@ export class TokensService {
 
     public async delete(id: string | string[]): Promise<void> {
         if (Array.isArray(id)){
-            await this._db.query("DELETE FORM users_tokens WHERE id = ANY($1)", [id]);
+            await this._db.query("DELETE FROM users_tokens WHERE id = ANY($1)", [id]);
         } else {
-            await this._db.query("DELETE FORM users_tokens WHERE id = $1", [id]);
+            await this._db.query("DELETE FROM users_tokens WHERE id = $1", [id]);
         }
     }
 }
