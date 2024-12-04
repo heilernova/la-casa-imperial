@@ -22,7 +22,7 @@ export class SessionService {
       const sessionInfo: ApiSession | null = JSON.parse(atob(localStorageDataSession));
       if (!sessionInfo) return false;
   
-      const session = new Session(sessionInfo);
+      const session = new Session(sessionInfo, this._http);
       if (session.validated()) {
         this._currentSession = session;
         return true;
@@ -40,7 +40,7 @@ export class SessionService {
     return new Promise((resolve, reject) => {
       this._http.post<ApiSession>("sign-in", credentials).subscribe({
         next: res => {
-          const session = new Session(res);
+          const session = new Session(res, this._http);
           if (session.validated()){
             localStorage.setItem("session", btoa(JSON.stringify(res)));
             this._currentSession = session;
