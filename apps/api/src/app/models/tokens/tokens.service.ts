@@ -29,7 +29,6 @@ export class TokensService {
         } else {
             params = undefined;
         }
-        console.log(sql);
         return (await this._db.query(sql, params)).rows;
     }
 
