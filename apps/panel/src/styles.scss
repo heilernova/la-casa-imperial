@@ -1,4 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --app-body-background-color: hsl(210, 14%, 7%);
+    --aside-background-color: #2D2F31;
+    --app-footer-background-color: #004A77;
+    --app-footer-color: #F3F6FC;
+}
+
 body {
     min-height: 100dvh;
+    background-color: var(--app-body-background-color);
+}
+
+.capitalize {
+    text-transform: capitalize;
 }
