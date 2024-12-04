@@ -1,0 +1,44 @@
+:host {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas: "aside header" "aside page" "footer footer";
+    height: 100%;
+}
+
+header {
+    grid-area: header;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 1em;
+    padding: 1em;
+}
+
+aside {
+    grid-area: aside;
+    padding: 1em;
+}
+
+section {
+    grid-area: page;
+    padding: 1em;
+    .page-container {
+        width: 100%;
+        overflow: auto;
+    }
+}
+
+footer {
+    grid-area: footer;
+    padding: 1em;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    :nth-child(2){
+        display: flex;
+        justify-content: center;
+        // text-align: right;
+    }
+    :nth-child(3){
+        text-align: right;
+    }
+}

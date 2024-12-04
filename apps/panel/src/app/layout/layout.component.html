@@ -1,0 +1,25 @@
+<header>
+    <div>
+        Home / 
+    </div>
+    <app-user/>
+</header>
+<aside>
+    <app-aside-content/>
+</aside>
+<section>
+    <div class="page-container">
+        <router-outlet/>
+    </div>
+</section>
+<footer>
+    <div>
+        Novah.dev
+    </div>
+    <div>
+        Copyright © 2024 Inversiones La Casa Imperial S.A.S ZOMAC
+    </div>
+    <div>
+        {{online() ? "Online" : "Sin conexión a internet"}}
+    </div>
+</footer>
