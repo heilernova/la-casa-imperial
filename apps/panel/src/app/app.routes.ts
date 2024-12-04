@@ -9,6 +9,7 @@ export const appRoutes: Route[] = [
         canActivate: [layoutGuard],
         loadComponent: () => import('./layout/layout.component').then(x => x.LayoutComponent),
         children: [
+            { path: 'perfil', loadComponent: () => import('./pages/profile-page/profile-page.component').then(x => x.ProfilePageComponent) },
             { path: 'inventario', loadChildren: () => import('./pages/inventory/inventory.routes') }
         ]
     }

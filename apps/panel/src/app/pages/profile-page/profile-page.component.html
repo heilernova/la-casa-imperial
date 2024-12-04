@@ -1,0 +1,61 @@
+<section>
+    <form class="form-profile" nz-form [formGroup]="form">
+        <div style="display: flex; gap: 1em;">
+            <nz-form-control>
+                <nz-input-group nzAddOnBefore="Nombre" >
+                    <input nz-input formControlName="name" [readOnly]="!edit()" class="capitalize">
+                </nz-input-group>
+            </nz-form-control>
+
+            <nz-form-control>
+                <nz-input-group nzAddOnBefore="Apellido" >
+                    <input nz-input formControlName="lastName" [readOnly]="!edit()">
+                </nz-input-group>
+            </nz-form-control>
+        </div>
+
+        <div>
+            <nz-form-control>
+                <nz-input-group nzAddOnBefore="Usuario" >
+                    <input nz-input formControlName="username" [readOnly]="!edit()">
+                </nz-input-group>
+            </nz-form-control>
+        </div>
+        
+        <div>
+            <nz-form-control>
+                <nz-input-group nzAddOnBefore="Correo electrónico" >
+                    <input nz-input formControlName="email" [readOnly]="!edit()">
+                </nz-input-group>
+            </nz-form-control>
+        </div>
+
+        <div class="form-profile-actions" [class.edit]="edit()">
+            @if (edit()) {
+                <button nz-button (click)="onClickDiscardChanges()">Descartar cambios</button>
+            }
+            <button nz-button type="button" (click)="onClickEdit()" [nzType]="edit() ? 'primary' : 'default'">{{edit() ? "Guardar" : "Editar"}}</button>
+        </div>
+    </form>
+</section>
+<section>
+    <h2>Seguridad</h2>
+    <div style="display: flex; column-gap: 1em;">
+        <button nz-button (click)="onUpdatePassword()">Cambiar contraseña</button>
+        <button nz-button (click)="onUpdatePIN()">Cambiar PIN</button>
+    </div>
+</section>
+
+<section class="tokens">
+    <h2>Tokens de acceso</h2>
+    <ul>
+        @for (token of tokens(); track i; let i = $index) {
+            <li style="display: flex; align-items: center; column-gap: 1em;">
+                <div>
+                    {{token.createdAt | date: 'dd/MM/yyyy'}}
+                </div>
+                <button nz-button (click)="onClickDeleteToken(i)">Eliminar</button>
+            </li>
+        }
+    </ul>
+</section>
