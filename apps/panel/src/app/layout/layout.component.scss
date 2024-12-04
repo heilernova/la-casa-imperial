@@ -22,8 +22,10 @@ aside {
 section {
     grid-area: page;
     padding: 1em;
+    overflow: auto;
     .page-container {
         width: 100%;
+        overflow: auto;
         overflow: auto;
     }
 }
