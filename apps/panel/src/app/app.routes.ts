@@ -7,6 +7,9 @@ export const appRoutes: Route[] = [
     {
         path: '',
         canActivate: [layoutGuard],
-        loadComponent: () => import('./layout/layout.component').then(x => x.LayoutComponent)
+        loadComponent: () => import('./layout/layout.component').then(x => x.LayoutComponent),
+        children: [
+            { path: 'inventario', loadChildren: () => import('./pages/inventory/inventory.routes') }
+        ]
     }
 ];
