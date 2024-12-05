@@ -19,14 +19,14 @@ export class CategoriesController {
 
     @Post()
     async create(@Body() body: CategoryCreateDto){
-        const valid = await this._categories.isNameAvailable(body.name, body.parentId);
+        const valid = await this._categories.isNameAvailable(body.name, { parentId: body.parentId });
         if (!valid) throw new HttpException("Ya existe la categoría", 400);
         return await this._categories.create({ ...body });
     }
 
     @Put(':id')
     async update(@Param('id', CategoryPipe) category: ICategory, @Body() body: CategoryUpdateDto){
-        const valid = await this._categories.isNameAvailable(body.name, category.parentId ?? undefined);
+        const valid = await this._categories.isNameAvailable(body.name, { parentId: category.parentId ?? undefined, ignoreId: category.id });
         if (!valid) throw new HttpException("Ya existe la categoría", 400);
         const result = await this._categories.update(category.id, body);
         if (!result) throw new HttpException("No se pudo actualizar la categoría", 400);

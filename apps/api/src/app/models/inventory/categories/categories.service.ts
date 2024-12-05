@@ -54,12 +54,14 @@ export class CategoriesService {
         return (await this._db.delete("inventory_categories", ["id = $1", [id]])).rowCount == 1;
     }
 
-    public async isNameAvailable(name: string, parentId?: string): Promise<boolean> {
+    public async isNameAvailable(name: string, options?: { parentId?: string, ignoreId?: string }): Promise<boolean> {
         let sql = "SELECT COUNT(*) = 0 FROM inventory_categories WHERE lower(unaccent(name)) = lower(unaccent($1))";
         const params: string[] = [name];
-        if (parentId){
-            sql += " and parent_id = $2";
-            params.push(parentId);
+        if (options?.parentId){
+            sql += ` AND parent_id = $${params.push(options.parentId)}`;
+        }
+        if (options?.ignoreId){
+            sql +=  ` AND id <> $${params.push(options.ignoreId)}`;
         }
         return (await this._db.query<[boolean]>(sql, params, true)).rows[0][0];
     }
