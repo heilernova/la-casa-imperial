@@ -1,0 +1,15 @@
+.node-header {
+    border-radius: 5px;
+    &:hover {
+        background-color: gray;
+        transition: all 0.3s ease;
+    }
+}
+.children {
+    padding-left: 2em;
+    height: 0;
+    overflow: hidden;
+    &.show {
+        height: auto;
+    }
+}

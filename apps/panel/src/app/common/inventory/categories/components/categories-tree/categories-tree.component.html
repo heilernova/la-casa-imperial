@@ -1,0 +1,4 @@
+@for (item of list(); track $index) {
+    <app-categories-tree-node [category]="item"/>
+}
+<button nz-button (click)="onCreateCategory()">Agregar categoría</button>

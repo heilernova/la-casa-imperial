@@ -1,0 +1,23 @@
+<form nz-form nzLayout="vertical" [formGroup]="form">
+    <nz-form-item>
+        <nz-form-label>
+            Nombre
+        </nz-form-label>
+        <nz-form-control>
+            <input nz-input formControlName="name"/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label>
+            Descripción
+        </nz-form-label>
+        <nz-form-control>
+            <textarea nz-input formControlName="description"></textarea>  
+        </nz-form-control>
+    </nz-form-item>
+</form>
+
+<div *nzModalFooter>
+    <button nz-button nzType="default" (click)="onDestroy()">Cancelar</button>
+    <button nz-button nzType="primary" (click)="onSave()">Actualizar</button>
+</div>

@@ -1,0 +1,24 @@
+<div class="node-header" style="display: grid; grid-template-columns: auto 1fr auto; align-items: center;">
+    <button nz-button nzType="text" (click)="onShowChildren()">
+        <span nz-icon [nzType]="showChildren() ? 'minus' : 'plus'" nzTheme="outline"></span>
+    </button>
+    <div>{{category().name}}</div>
+    <button nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" nzType="text">
+        <span nz-icon nzType="dash" nzTheme="outline"></span>
+    </button>
+</div>
+<div class="children" [class.show]="showChildren()">
+    @for (item of children(); track $index) {
+        <app-categories-tree-node [category]="item"/>
+    }
+</div>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+        <li nz-menu-item (click)="onAddSubCategory()"  [attr.aria-hidden]="true">
+            Agregar sub categoría
+        </li>
+        <li nz-menu-item (click)="onEdit()"  [attr.aria-hidden]="true">Editar</li>
+        <li nz-menu-item (click)="onDelete()" [attr.aria-hidden]="true">Eliminar</li>
+    </ul>
+</nz-dropdown-menu>
