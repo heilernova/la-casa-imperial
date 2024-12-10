@@ -19,12 +19,12 @@ export class ItemsController {
     @Get()
     async getAll(): Promise<ApiItem[]> {
         const items = await this._items.getAll({});
-        return items.map(x => parseObjectItemToApiItem(x, "https://localhost:3050/media/items"));
+        return items.map(x => parseObjectItemToApiItem(x, `${process.env.APP_URL_MEDIA_BASE}/items`));
     }
 
     @Get(':id')
     get(@Param('id', ItemPipe) item: IItem): ApiItem {
-        return parseObjectItemToApiItem(item, "https://localhost:3050/media/items");
+        return parseObjectItemToApiItem(item, `${process.env.APP_URL_MEDIA_BASE}`);
     }
 
     @Post()
@@ -34,7 +34,7 @@ export class ItemsController {
             throw new HttpException("El nombre del ítem ya está en uso. Por favor, elige un nombre diferente.", 400);
         }
         const item = await this._items.create(body);
-        return parseObjectItemToApiItem(item, "https://localhost:3050/media/items");
+        return parseObjectItemToApiItem(item, `${process.env.APP_URL_MEDIA_BASE}`);
     }
 
     @Put(':id')
@@ -46,7 +46,7 @@ export class ItemsController {
         await this._items.update(item.id, body);
         const result = await this._items.get(item.id);
         if (!result) throw new HttpException("Error inesperado", 500);
-        return  parseObjectItemToApiItem(result, "https://localhost:3050/media/items");
+        return  parseObjectItemToApiItem(result, `${process.env.APP_URL_MEDIA_BASE}`);
     }
 
     @Delete(':id')
@@ -83,12 +83,12 @@ export class ItemsController {
 
 
     @Put(':id/unpublish')
-    @UseInterceptors(AnyFilesInterceptor())
     async unpublish(@Param('id', ItemPipe) item: IItem): Promise<void> {
         await this._items.update(item.id, { publish: false });
     }
 
     @Put(':id/images')
+    @UseInterceptors(AnyFilesInterceptor())
     async images(
     @Param('id', ItemPipe) item: IItem,
     @Body('delete') deleteImagesString?: string,
@@ -102,7 +102,8 @@ export class ItemsController {
     ) {
         const path = `${process.env.APP_DIR_FILES as string}/items/${item.id}`;
         const deleteImages = deleteImagesString?.split(',').map(name => name.trim()) || [];
-
+        if (!existsSync(`${process.env.APP_DIR_FILES as string}/items`)) mkdirSync(`${process.env.APP_DIR_FILES as string}/items`);
+        
         let gallery = item.gallery;
         let openGraphImages = item.openGraphImages;
 
@@ -110,10 +111,11 @@ export class ItemsController {
             if (name.startsWith("img") && existsSync(`${path}/${name}`)) {
                 rmSync(`${path}/${name}`, { recursive: true, force: true });
                 gallery = gallery.filter(x => x !== name);
-            } else if (name.startsWith("og") && existsSync(`${path}/${name}`)) {
+            } else if (name.startsWith("og") && existsSync(`${path}/${name}.avif`)) {
                 openGraphImages = openGraphImages.filter(x => x.name !== name);
             }
         });
+
         sharp.cache(false);
 
         if (files) {
@@ -124,45 +126,49 @@ export class ItemsController {
             sharp.cache(false);
             
             const promises = files.map(async (file) => {
-            const sharpImage = sharp.default(file.buffer);
-            const metaData = await sharpImage.metadata();
-
-            if (file.fieldname === "gallery") {
+                const sharpImage = sharp.default(file.buffer);
+                const metaData = await sharpImage.metadata();
                 if (metaData.format !== "avif") sharpImage.toFormat("avif");
-                if (metaData.height !== metaData.width) {
-                const size = Math.max(metaData.height ?? 0, metaData.width ?? 0);
-                    sharpImage.resize(size, size, { fit: "contain", background: { r: 255, g: 255, b: 255, alpha: 1 } });
+                if (file.fieldname === "gallery") {
+                    if (metaData.height !== metaData.width) {
+                    const size = Math.max(metaData.height ?? 0, metaData.width ?? 0);
+                        sharpImage.resize(size, size, { fit: "contain", background: { r: 255, g: 255, b: 255, alpha: 1 } });
+                    }
+                    galleryIndex++;
+                    const folderImage = `img-${galleryIndex.toString().padStart(2, '0')}`;
+                    mkdirSync(`${path}/${folderImage}`)
+                    await Promise.all([
+                        sharpImage.clone().toFile(`${path}/${folderImage}/regular.avif`),
+                        sharpImage.clone().resize(200, 200).toFile(`${path}/${folderImage}/small.avif`),
+                        sharpImage.clone().resize(50, 50).toFile(`${path}/${folderImage}/thumbnail.avif`),
+                    ]);
+
+                    return folderImage;
+                } else {
+                    const ogImage: IOpenGraphImage = {
+                        name: file.fieldname,
+                        type: "avif",
+                        height: metaData.height as number,
+                        width: metaData.width as number,
+                        size: metaData.size as number,
+                    };
+
+                    if (ogImage.name == "og-sms" && ogImage.height != ogImage.width){
+                        const height = ogImage.height > 1080 ? 1080 : ogImage.height;
+                        sharpImage.resize(height, height, { fit: "contain", background: { r: 255, g: 255, b: 255, alpha: 1 } });
+                    }
+
+                    if (ogImage.name == "og-facebook" && (ogImage.height != 630 || ogImage.width != 1200)){
+                        sharpImage.resize(1200, 630, { fit: "contain", background: { r: 255, g: 255, b: 255, alpha: 1 } });
+                    }
+
+                    const res = await sharpImage.toFile(`${path}/${file.fieldname}.avif`);
+                    ogImage.height = res.height;
+                    ogImage.width = res.width;
+                    ogImage.size = res.size;
+                    openGraphImages = [...openGraphImages.filter(x => x.name !== file.fieldname), ogImage];
+                    return null;
                 }
-
-                await Promise.all([
-                    sharpImage.toFile(`${path}/img-${(++galleryIndex).toString().padStart(2, '0')}/regular.avif`),
-                    sharpImage.clone().resize(200, 200).toFile(`${path}/img-${galleryIndex.toString().padStart(2, '0')}/small.avif`),
-                    sharpImage.clone().resize(50, 50).toFile(`${path}/img-${galleryIndex.toString().padStart(2, '0')}/miniature.avif`),
-                ]);
-
-                return `img-${galleryIndex.toString().padStart(2, '0')}`;
-            } else {
-                const ogImage: IOpenGraphImage = {
-                    name: file.fieldname,
-                    type: "png",
-                    height: metaData.height as number,
-                    width: metaData.width as number,
-                    size: metaData.size as number,
-                };
-
-                if (ogImage.name == "og-sms" && ogImage.height != ogImage.width){
-                    const height = ogImage.height > 1080 ? 1080 : ogImage.height;
-                    sharpImage.resize(height, height, { fit: "contain", background: { r: 255, g: 255, b: 255, alpha: 1 } });
-                }
-
-                if (ogImage.name == "og-facebook" && ogImage.height != 630 || ogImage.width != 1200){
-                    sharpImage.resize(1200, 630, { fit: "contain", background: { r: 255, g: 255, b: 255, alpha: 1 } });
-                }
-
-                await sharpImage.toFormat("png").toFile(`${path}/${file.fieldname}.png`);
-                openGraphImages = [...openGraphImages.filter(x => x.name !== file.fieldname), ogImage];
-                return null;
-            }
             });
 
             const isString = (value: string | null): value is string => value !== null;
@@ -171,6 +177,15 @@ export class ItemsController {
         }
 
         await this._items.update(item.id, { gallery, openGraphImages });
+        return {
+            gallery: gallery.map(x => `${process.env.APP_URL_MEDIA_BASE}/media/items/${x}.avif`),
+            openGraphImages: openGraphImages.map(x => {
+                return {
+                    ...x,
+                    url: `${process.env.APP_URL_MEDIA_BASE}/media/items/${x.name}.${x.type}`
+                }
+            })
+        }
     }
 
 }
