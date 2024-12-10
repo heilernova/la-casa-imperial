@@ -1,0 +1,29 @@
+:host {
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    padding: 1em;
+    row-gap: 1em;
+    font-size: 90%;
+}
+.info-base {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.flex {
+    display: flex;
+    &.column {
+        flex-direction: column;
+    }
+
+    &.flex-center {
+        justify-content: center;
+    }
+
+    &.center {
+        align-items: center;
+    }
+    
+}
