@@ -46,7 +46,7 @@ export interface IItem {
     },
     details: IDetail[],
     gallery: string[],
-    openGraphImages: IOpenGraphImage[],
+    openGraphImages: IOpenGraphImageBase[],
     description: string | null
 }
 
@@ -67,12 +67,20 @@ export interface IDetailItem {
     value: string;
 }
 
-export interface IOpenGraphImage {
+export interface IOpenGraphImageBase {
     name: string;
     type: string;
     width: number;
     height: number;
     size: number;
+}
+export interface IOpenGraphImage extends IOpenGraphImageBase {
+    name: string;
+    type: string;
+    width: number;
+    height: number;
+    size: number;
+    url: string;
 }
 
 export interface IItemCreateValues extends PartialWithout<OmitBy<IItem, "id" | "createdAt" | "updatedAt" | "offer" | "categories" | "cost">, "name" | "price">  {
