@@ -1,0 +1,45 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+}
+section {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+    .header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        column-gap: 1em;
+    }
+    .items {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns:  repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+        gap: 1em;
+        li {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            grid-template-rows: 1fr 1fr;
+            grid-template-areas: "field actions" "value value";
+            :nth-child(1){
+                grid-area: field;
+                input {
+                    border-radius: 5px 0 0 0;
+                }
+            }
+            :nth-child(2){
+                grid-area: actions;
+                border-radius: 0 5px 0 0;
+            }
+            :nth-child(3){
+                grid-area: value;
+                input {
+                    border-radius: 0 0 5px 5px;
+                }
+            }
+        }
+    }
+}

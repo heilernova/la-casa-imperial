@@ -1,0 +1,34 @@
+@for (form of formArray().controls; track indexSection; let indexSection = $index) {
+    <section [formGroup]="form">
+        <div class="header">
+            <nz-form-control>
+                <input nz-input formControlName="title" placeholder="Titulo de las sección">
+            </nz-form-control>
+            <button nz-button (click)="onClickDeleteSection(indexSection)">Eliminar sección</button>
+        </div>
+        <ul class="items">
+            @for (item of form.controls.items.controls; track i; let i = $index) {
+                <li [formGroup]="item">
+                    <nz-form-control>
+                        <input nz-input placeholder="Item" formControlName="field">
+                    </nz-form-control>
+                    <button nz-button (click)="onDeleteItem(form, i)">
+                        <span nz-icon nzType="delete" nzTheme="outline"></span>
+                    </button>
+                    <nz-form-control>
+                        <input nz-input placeholder="Contenido" formControlName="value">
+                    </nz-form-control>
+                </li>
+            }
+            <li>
+                <button (click)="onClickAddItem(form)" nz-button nzType="text">
+                    Agregar item
+                </button>
+            </li>
+        </ul>
+    </section>
+}
+
+<section>
+    <button nz-button (click)="onClickAddSection()">Agregar sección</button>
+</section>

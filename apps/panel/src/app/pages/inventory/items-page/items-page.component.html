@@ -1,1 +1,40 @@
-<p>items-page works!</p>
+<section>
+    <button nz-button routerLink="agregar">Agregar producto</button>
+</section>
+<section>
+    <nz-list>
+        @for (item of list(); track i; let i = $index) {
+            <nz-list-item>
+                <div class="item-container">
+                    <div class="image-container">
+                        <img [src]="item.gallery[0] + '?size=thumbnail'" [alt]="item.name">
+                    </div>
+                    <div class="info">
+                        <div class="name">
+                            {{item.name}}
+                        </div>
+                        <div class="extra">
+                            Código: {{item.code}} - Stock: {{item.stock}}
+                        </div>
+                    </div>
+                    <div class="price">
+                        {{item.price | number}}
+                    </div>
+                </div>
+                <ul nz-list-item-actions>
+                    <nz-list-item-action>
+                      <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+                        <span nz-icon nzType="more" nzTheme="outline" style="font-size: 19px;"></span>
+                      </a>
+                    </nz-list-item-action>
+                  </ul>
+            </nz-list-item>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                    <li nz-menu-item [attr.aria-hidden]="true" [routerLink]="item.id">Ver mas información</li>
+                    <li nz-menu-item [attr.aria-hidden]="true">Editar item</li>
+                </ul>
+            </nz-dropdown-menu>
+        }
+    </nz-list>
+</section>

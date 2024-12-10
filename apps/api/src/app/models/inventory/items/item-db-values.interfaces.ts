@@ -1,5 +1,5 @@
 import { OmitBy, PartialWithout } from "@la-casa-imperial/core";
-import { IDetail, IOpenGraphImage, ItemFilter, ItemStatus, ItemType } from "@la-casa-imperial/schemas/inventory/items";
+import { IDetail, IOpenGraphImageBase, ItemFilter, ItemStatus, ItemType } from "@la-casa-imperial/schemas/inventory/items";
 
 export interface IItemDbValues {
     id: string;
@@ -32,7 +32,7 @@ export interface IItemDbValues {
     seo_keywords: string[];
     details: IDetail[];
     gallery: string[];
-    open_graph_images: IOpenGraphImage[]
+    open_graph_images: IOpenGraphImageBase[]
     description: string | null
 }
 

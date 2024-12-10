@@ -1,1 +1,101 @@
-<p>items-edit-page works!</p>
+@if (edit()) {
+    <div class="layout-form">
+        <app-item-form [data]="item() ?? undefined"/>
+        <div style="display: flex; justify-content: flex-end; column-gap: 1em;">
+            <button nz-button (click)="onClickDiscardChanges()">Descartar cambios</button>
+            <button nz-button nzType="primary" (click)="onClickOnSave()">Guardar</button>
+        </div>
+    </div>
+} @else {
+    <div style="display: grid; grid-template-columns: 1fr auto; align-items: center;">
+        <h1>{{item()?.name}}</h1>
+        <div style="display: flex; column-gap: .5em;">
+            <button nz-button (click)="onClickPublish()">{{item()?.publish ? "Quitar de tienda online" : "Publicar en tienda online"}}</button>
+            <button nz-button nzType="primary" (click)="onClickEdit()">Editar</button>
+        </div>
+    </div>
+    <div class="layout">
+        <section class="info">
+            <div class="flex">
+                <div class="tag-info">
+                    <div>
+                        Código
+                    </div>
+                    <div>
+                        {{item()?.code}}
+                    </div>
+                </div>
+                <div class="tag-info">
+                    <div>
+                        Código de barras
+                    </div>
+                    <div>
+                        {{item()?.barcode ?? "Sin código"}}
+                    </div>
+                </div>
+                <div class="tag-info">
+                    <div>
+                        Código del producto o servicio (UNSPSC)
+                    </div>
+                    <div>
+                        {{item()?.unspsc ?? "Sin código"}}
+                    </div>
+                </div>
+            </div>
+        
+            <div class="tag-info">
+                <div>
+                    Categoría
+                </div>
+                <div>
+                    @for (item of item()?.categories?.toReversed(); track $index) {
+                        <span>{{item.name}} / </span>
+                    }
+                </div>
+            </div>
+            
+            <div class="tag-info">
+                <div>
+                    Descripción
+                </div>
+                <div>
+                    {{item()?.description}}
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <div class="image-container">
+                <img [src]="image()" [alt]="item()?.name">
+            </div>
+            <div class="tag-info">
+                <div>
+                    Precio de venta
+                </div>
+                <div class="price">
+                    $ {{item()?.price | number}}
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    
+    <section class="details">
+        <h2>Detalles del producto</h2>
+        <ul>
+            @for (detail of item()?.details; track $index) {
+                <li>
+                    <div class="title">{{detail.title}}</div>
+                    <ul>
+                        @for (item of detail.items; track $index) {
+                            <li>
+                                <div>{{item.field}}</div>
+                                <div>{{item.value}}</div>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    </section>
+}

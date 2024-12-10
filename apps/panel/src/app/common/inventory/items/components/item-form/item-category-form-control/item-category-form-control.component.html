@@ -1,0 +1,28 @@
+<ul class="categories">
+    @for (category of categories(); track i; let i = $index) {
+        <li>
+            <div>
+                {{category.name}}
+            </div>
+            <div [attr.aria-hidden]="true" (click)="onRemoveCategory(i)" [attr.aria-hidden]="true" class="icon-delete">
+                <span nz-icon nzType="close" nzTheme="outline"></span>
+            </div>
+            <div>
+                /
+            </div>
+        </li>
+    }
+    <li nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+        Seleccionar categoría
+    </li>
+</ul>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+        @for (category of options(); track $index) {
+            <li nz-menu-item (click)="onSelect(category)" [attr.aria-hidden]="true">{{category.name}}</li>
+        }
+        <li nz-menu-item (click)="onAddCategory()" [attr.aria-hidden]="true">Agregar sub categoría</li>
+
+    </ul>
+</nz-dropdown-menu>

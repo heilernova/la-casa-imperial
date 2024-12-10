@@ -23,6 +23,7 @@ section {
     grid-area: page;
     padding: 1em;
     overflow: auto;
+    display: flex;
     .page-container {
         width: 100%;
         overflow: auto;

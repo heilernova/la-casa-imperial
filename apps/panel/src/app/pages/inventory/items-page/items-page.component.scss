@@ -1,0 +1,25 @@
+.item-container {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    width: 100%;
+    column-gap: 1em;
+
+    .image-container {
+        img {
+            border-radius: 5px;
+        }
+    }
+
+    .info {
+        display: flex;
+        flex-direction: column;
+
+        .name {
+            font-weight: 500;
+        }
+        .extra {
+            font-size: 95%;
+        }
+    }
+}

@@ -1,0 +1,38 @@
+<section class="open-graph-container">
+    <div class="open-graph-image sms" (click)="ogSM.click()" [attr.aria-hidden]="true">
+        @if (openGraphShowSMS()) {
+            <img [src]="openGraphSMS()" alt="Open graph SMS">
+        } @else {
+            <span nz-icon nzType="plus" nzTheme="outline"></span>
+        }
+    </div>
+    <div class="open-graph-image facebook" (click)="ogFacebook.click()" [attr.aria-hidden]="true">
+        @if (openGraphShowFacebook()) {
+            <img [src]="openGraphFacebook()" alt="Open graph Facebook">
+        } @else {
+            <span nz-icon nzType="plus" nzTheme="outline"></span>
+        }
+    </div>
+</section>
+
+<input hidden accept="image/*" type="file" #ogSM (change)="tryFile($event, 'sms')">
+<input hidden accept="image/*" type="file" #ogFacebook (change)="tryFile($event, 'facebook')">
+<input hidden accept="image/*" type="file" #inputGallery (change)="tryFile($event)" multiple>
+
+<section class="gallery-container"> 
+    <ul>
+        @for (item of gallery(); track i; let i = $index) {
+            <li nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+                <img [src]="item.src" [alt]="i">
+            </li>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                    <li nz-menu-item (click)="onClickDelete(i)" [attr.aria-hidden]="true">Eliminar</li>
+                </ul>
+            </nz-dropdown-menu>
+        }
+        <li class="image-container" (click)="inputGallery.click()" [attr.aria-hidden]="true">
+            <span nz-icon nzType="plus" nzTheme="outline"></span>
+        </li>
+    </ul>
+</section>

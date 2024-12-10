@@ -1,0 +1,1 @@
+export * from './nz-input-number/nz-input-number.component';

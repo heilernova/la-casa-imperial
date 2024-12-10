@@ -1,0 +1,23 @@
+ul.categories {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-content: center;
+    column-gap: .5em;
+    li {
+        cursor: pointer;
+        display: flex;
+        column-gap: .2em;
+        align-items: center;
+        .icon-delete {
+            display: flex;
+            justify-content: center;
+            border-radius: 50%;
+            padding: .2em;
+            &:hover {
+                background-color: gray;
+            }
+        }
+    }
+}
