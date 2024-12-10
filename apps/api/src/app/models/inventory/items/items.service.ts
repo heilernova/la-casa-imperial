@@ -21,7 +21,7 @@ export class ItemsService {
 
     public async getLastId(): Promise<number> {
         let code = (await this._db.query<[number]>("SELECT MAX(code)::int FROM inventory_items", undefined, true)).rows[0][0];
-        if (code == 0) code = 1000;
+        if (code < 1000) code = 1000;
         return code;
     }
 
