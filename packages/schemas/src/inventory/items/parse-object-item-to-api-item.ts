@@ -33,8 +33,8 @@ export const parseObjectItemToApiItem = (data: IItem, urlMedia: string): ApiItem
         orderIndex: data.orderIndex,
         seo: data.seo,
         details: data.details,
-        gallery: data.gallery,
-        openGraphImages: data.openGraphImages.map(x =>  ({ ...x, url:  `${urlMedia}/${data.code}` }) ),
+        gallery: data.gallery.map(x => `${urlMedia}/${data.code}/${x}.avif`),
+        openGraphImages: data.openGraphImages.map(x =>  ({ ...x, url:  `${urlMedia}/${data.code}/${x.name}.${x.type}` }) ),
         description: data.description
     }
 }
