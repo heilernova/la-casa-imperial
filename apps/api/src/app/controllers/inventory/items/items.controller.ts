@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, FileTypeValidator, Get, HttpException, Param, ParseFilePipe, Post, Put, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { ItemPipe, ItemsService } from '../../../models/inventory';
-import { ApiItem, IItem, IOpenGraphImage, parseObjectItemToApiItem } from '@la-casa-imperial/schemas/inventory/items';
+import { ApiItem, IItem, IOpenGraphImageBase, parseObjectItemToApiItem } from '@la-casa-imperial/schemas/inventory/items';
 import { ItemCreateDto } from './dto';
 import { FilesImagesValidator } from './files-image-validator';
 import * as multer from 'multer';
@@ -39,7 +39,7 @@ export class ItemsController {
 
     @Put(':id')
     async update(@Param('id', ItemPipe) item: IItem, @Body() body: ItemCreateDto): Promise<ApiItem> {
-        const nameAvailable = await this._items.isNameAvailable(body.name);
+        const nameAvailable = await this._items.isNameAvailable(body.name, item.id);
         if (!nameAvailable){
             throw new HttpException("El nombre del ítem ya está en uso. Por favor, elige un nombre diferente.", 400);
         }
@@ -145,7 +145,7 @@ export class ItemsController {
 
                     return folderImage;
                 } else {
-                    const ogImage: IOpenGraphImage = {
+                    const ogImage: IOpenGraphImageBase = {
                         name: file.fieldname,
                         type: "avif",
                         height: metaData.height as number,
