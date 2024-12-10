@@ -3,6 +3,7 @@ import { InventoryModule } from './inventory/inventory.module';
 import { AuthController } from './auth/auth.controller';
 import { RouterModule } from '@nestjs/core';
 import { ProfileController } from './profile/profile.controller';
+import { MediaController } from './media/media.controller';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { ProfileController } from './profile/profile.controller';
   ],
   controllers: [
     AuthController,
-    ProfileController
+    ProfileController,
+    MediaController
   ]
 })
 export class ControllersModule {}
