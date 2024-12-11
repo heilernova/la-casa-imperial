@@ -186,7 +186,7 @@ json_build_object(
     'description', a.seo_description,
     'keywords', a.seo_keywords
 ) AS "seo",
-(SELECT json_agg(json_build_object('id', cte.id, 'name', cte.name, 'slug', cte.slug )) FROM app_inv_category_get_children(a.category_id) cte ) AS categories,
+(SELECT array_agg(json_build_object('id', cte.id, 'name', cte.name, 'slug', cte.slug )) FROM app_inv_category_get_children(a.category_id) cte ) AS categories,
 a.details,
 a.gallery,
 a.open_graph_images,
@@ -197,3 +197,28 @@ LEFT JOIN
 GROUP BY
     a.id;
 
+create function app_match_categories(json[], text[])
+returns boolean
+language plpgsql
+as
+$$
+declare
+    ok boolean;
+    item json;
+    v text;
+begin
+    foreach v in array $2 loop 
+        ok = false;
+        foreach item in array $1 loop
+            ok =  replace((item->'id')::varchar, '"', '')::text = v or replace((item->'slug')::varchar, '"', '')::text = v;
+            if ok = true then
+                exit;
+            end if;
+        end loop;
+        if ok = false then
+            exit;
+        end if;
+    end loop;
+    return ok;
+end;
+$$;
