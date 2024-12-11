@@ -44,7 +44,7 @@ export class ItemsService {
         }
 
         if (filter.category){
-            conditions.push(`app_match_categories(a.categories, $${filter.category})`);
+            conditions.push(`app_match_categories(a.categories, $${params.push(filter.category)})`);
         }
 
         if (conditions.length > 0){
@@ -66,7 +66,7 @@ export class ItemsService {
             category_id: data.categoryId,
             unspsc: data.unspsc,
             name: data.name.trim(),
-            brand: data.brand,
+            brand: data.brand?.trim().toUpperCase(),
             model: data.model,
             stock: data.stock,
             stockMin: data.stockMin,
@@ -105,8 +105,8 @@ export class ItemsService {
             category_id: data.categoryId,
             unspsc: data.unspsc,
             name: data.name?.trim(),
-            brand: data.brand,
-            model: data.model,
+            brand: data.brand?.trim().toUpperCase(),
+            model: data.model?.trim().toUpperCase(),
             stock: data.stock,
             stockMin: data.stockMin,
             cost: data.cost?.baseCost,
