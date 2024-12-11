@@ -1,7 +1,9 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, createReadStream } from "node:fs";
 import { Pool } from "pg";
 import { hash } from 'argon2';
-
+import csvParser from 'csv-parser';
+import xlsx from 'xlsx';
+import { generateSlug } from "../../packages/core/src";
 
 const generateSQLInsert = (table: string, object: { [key: string]: string | number }) => {
     const fields = Object.keys(object).join(", ");
@@ -16,10 +18,10 @@ const generateSQLInsert = (table: string, object: { [key: string]: string | numb
 }
 
 async function main() {
-    const test: boolean = process.argv.some(x => x == "--test");
+    const test: boolean = process.argv.some(x => x == "test");
     const baseSQL: string = readFileSync("database/structure.postgres.sql").toString();
     let sql = baseSQL;
-
+    
     const defaultUser = {
         role: "admin",
         username: "admin",
@@ -43,9 +45,53 @@ async function main() {
         port: parseInt(process.env['DB_PORT'] ?? '0')
     });
 
-
     if (test){
-        sql += "";
+        // Cargar las categorías
+        console.log("Test")
+        const pathDataCategories = "storage/categories.csv";
+        const pathProducts = "storage/productos.xlsx";
+
+        if (existsSync(pathDataCategories)){
+            const res = new Promise<any[]>((resolve) => {
+                const data: any[] = [];
+
+                const parseNullValues = (value: unknown) => { // Convertir "NULL" y celdas vacías en null 
+                    if (value === 'NULL' || value === '') { return null; } return value;
+                };
+
+                createReadStream(pathDataCategories)
+                .pipe(csvParser())
+                .on('data', (row) => { 
+                    data.push(Object.fromEntries( Object.entries(row).map(([key, value]) => [key, parseNullValues(value)]) ));
+                 })
+                .on('end', () => resolve(data))
+            });
+            sql += "\n\n -- Categoría\n";
+            (await res).forEach(item => {
+                sql += `INSERT INTO inventory_categories(id, name, slug, parent_id, description) VALUES('${item.id}', '${item.name  }', '${item.slug}', ${item.parent_id ? `'${item.parent_id}'` : 'NULL'}, NULL);\n`
+            })
+        }
+
+        if (existsSync(pathProducts)){
+            const workbook = xlsx.readFile(pathProducts);
+            // Obtener el nombre de la primera hoja de cálculo
+            const sheetName = workbook.SheetNames[0];
+
+            // Obtener los datos de la primera hoja de cálculo
+            const sheet = workbook.Sheets[sheetName];
+
+            // Convertir los datos de la hoja de cálculo a formato JSON
+            const data: any[] = xlsx.utils.sheet_to_json(sheet);
+
+            data.forEach(product => {
+                sql += `INSERT INTO inventory_items(code, type, name, brand, order_index, slug, price, category_id) VALUES('${product.code}', 'product', '${product.name}', '${product.brand}', ${product.index ?? 0}, '${generateSlug(product.name)}', ${product.price ?? 0}, '${product.category}');\n`
+            })
+
+        }
+
+        // console.log(sql);
+
+        // return;
     }
 
 

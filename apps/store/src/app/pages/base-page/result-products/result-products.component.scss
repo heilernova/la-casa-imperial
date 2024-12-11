@@ -1,0 +1,46 @@
+ul.card {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 1em;
+    li {
+        border-radius: 5px;
+        border: 1px solid gray;
+        position: relative;
+        .brand {
+            position: absolute;
+            top: .2em;
+            right: .2em;
+            font-size: 95%;
+            font-weight: 500;
+            background-color: rgba(220, 220, 220, 0.527);
+            padding: .3em 1em;
+            border-radius: 5px;
+        }
+        .image-container {
+            height: 150px;
+            background-color: aliceblue;
+            border-radius: 5px 5px 0 0;
+        }
+        .title {
+            font-weight: 500;
+            display: -webkit-box;
+            line-height: 1.2em;
+            max-width: 400px;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .price {
+            font-weight: 700;
+            .value {
+                font-size: 20px;
+                color: #BD1622;
+            }
+        }
+    }
+}

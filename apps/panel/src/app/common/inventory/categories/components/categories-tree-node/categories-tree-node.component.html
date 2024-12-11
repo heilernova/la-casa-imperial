@@ -2,7 +2,7 @@
     <button nz-button nzType="text" (click)="onShowChildren()">
         <span nz-icon [nzType]="showChildren() ? 'minus' : 'plus'" nzTheme="outline"></span>
     </button>
-    <div>{{category().name}}</div>
+    <div>{{category().name}}  - {{category().id}}</div>
     <button nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" nzType="text">
         <span nz-icon nzType="dash" nzTheme="outline"></span>
     </button>

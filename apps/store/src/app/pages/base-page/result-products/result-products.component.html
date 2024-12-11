@@ -1,0 +1,26 @@
+<ul [classList]="type()">
+    @for (item of products(); track $index) {
+        <li>
+            <div class="brand">
+                {{item.brand}}
+            </div>
+            <div class="image-container">
+
+            </div>
+            <div class="title">
+                {{item.name}}
+            </div>
+            <div class="price">
+                <div class="value">
+                    $ {{item.price | number}}
+                </div>
+            </div>
+
+            <div>
+                <button>Enviar mensaje</button>
+                <button>Compartir</button>
+                <button>Agregar al carrito</button>
+            </div>
+        </li>
+    }
+</ul>
